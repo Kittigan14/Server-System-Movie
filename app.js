@@ -443,11 +443,30 @@ app.post('/updateProfile', (req, res) => {
 
 app.get('/editUsername', async (req, res) => {
     res.send('this is the page edit username');
-})
+});
 
 app.get('/editEmail', async (req, res) => {
     res.send('this is the page edit Email');
-})
+});
+
+app.post('/updateEmail', (req, res) => {
+    const newEmail = req.body.newEmail;
+    const userID = req.body.userID;
+
+    const sql = `
+        UPDATE Users
+        SET Email = ?
+        WHERE UserID = ?;`;
+
+    db.run(sql, [newEmail, userID], (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Failed to update Email' );
+        } else {
+            res.send('Update Email Successfully!');
+        }
+    });
+});
 
 // Run Servers PORT 3000
 app.listen(port, () => {
