@@ -109,10 +109,14 @@ app.post("/loginPost", (req, res) => {
 
         if (row) {
             req.session.user = {
-                UserName: data.UserName
+                UserName: row.UserName,
+                UserID: row.UserID
             };
-            console.log(`Login successful for user: ${data.UserName}`);
-            res.send("Login successfully");
+            console.log(`Login successful for user: ${row.UserName}\nUser ID ${row.UserID}`);
+            res.json({
+                result: "Login successfully",
+                UserID: row.UserID
+            });
         } else {
             res.status(401).send("Login failed: incorrect username or password");
         }
@@ -337,16 +341,22 @@ app.post('/profilePost', (req, res) => {
     try {
         const username = req.body.userName;
         const sql = `
-        SELECT username, email, password
-        FROM users
-        WHERE username = ?`;
+        SELECT UserName, Email, Password
+        FROM Users
+        WHERE UserName = ?`;
 
         db.get(sql, [username], (err, row) => {
             if (err) {
                 console.error(err);
                 res.status(500).send(err);
             } else {
-                res.send(row);
+                if (row) {
+                    console.log('Profile Data:', row);
+                    res.send(row);
+                } else {
+                    console.log('Profile Data not found');
+                    res.status(404).send('Profile Data not found');
+                }
             }
         });
     } catch (err) {
@@ -360,22 +370,84 @@ app.delete('/deleteUser', (req, res) => {
         const username = req.body.userName;
 
         const sql = `
-            DELETE FROM users
-            WHERE username = ?`;
+            DELETE FROM Users
+            WHERE UserName = ?`;
 
         db.run(sql, [username], (err) => {
             if (err) {
                 console.error(err);
-                res.status(500).json({ error: err.message });
+                res.status(500).json({
+                    error: err.message
+                });
             } else {
                 res.send("User deleted successfully");
             }
         });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ error: err.message });
+        res.status(500).json({
+            error: err.message
+        });
     }
 });
+
+app.post('/updateUserName', (req, res) => {
+    const newUserName = req.body.newUserName;
+    const userID = req.body.userID;
+
+    const sql = `
+        UPDATE Users
+        SET UserName = ?
+        WHERE UserID = ?;`;
+
+    db.run(sql, [newUserName, userID], (err) => {
+        if (err) {
+            console.error(err);
+            res.status(500).send('Failed to update UserName' );
+        } else {
+            res.send('Update UserName Successfully!');
+        }
+    });
+});
+
+app.post('/updateProfile', (req, res) => {
+    try {
+        const userID = req.session.user ? req.session.user.UserID : null;
+        const newUserName = req.body.newUserName;
+
+        if (userID) {
+            const sql = `
+                UPDATE Users
+                SET UserName = ?
+                WHERE UserID = ?`;
+
+            db.run(sql, [newUserName, userID], function (err) {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send(err);
+                } else {
+                    // Update session
+                    req.session.user.UserName = newUserName;
+
+                    res.send({ message: 'Profile updated successfully' });
+                }
+            });
+        } else {
+            res.status(403).send('User not authenticated');
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(500).send(err);
+    }
+});
+
+app.get('/editUsername', async (req, res) => {
+    res.send('this is the page edit username');
+})
+
+app.get('/editEmail', async (req, res) => {
+    res.send('this is the page edit Email');
+})
 
 // Run Servers PORT 3000
 app.listen(port, () => {
