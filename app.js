@@ -1,6 +1,6 @@
 const express = require("express");
 const session = require("express-session");
-const sqlite = require("sqlite3").verbose();
+const sqlite = require("sqlite3")
 const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
