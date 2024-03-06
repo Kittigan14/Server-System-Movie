@@ -194,49 +194,124 @@
 
 
 // INSERT REVIEWS
-// const sqlite3 = require('sqlite3').verbose();
-// const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
 
-// const Reviewsdata = [
-//     [1 , 'Today I had the opportunity to watch the third and fourth round of Inception. Feeling stuck again, so I came to read Pantip during the movie is start. I can see many comments saying that it is the best movie they have ever seen. This thread therefore invites you to talk about your impressions of this matter. Ours is probably beyond the plot and cast that are very appropriate. We have never seen any other films by Director Nolan, but we admit that Really awesome Actually, I am still confused about many points in the movie. But you have to find the answer. By the way, maybe we are dreaming.', 1, 1 ],
-//     [2 , 'Heath Ledger is Joker steals the show, elevating The Dark Knight into a dark and gripping masterpiece.', 1, 2 ],
-//     [3 , 'Interstellar weaves an emotional and visually stunning tale of space exploration and the human spirit.', 1, 3 ],
-//     [4 , 'Forrest Gump is a heartwarming tale that seamlessly blends humor, emotion, and historical events.', 1, 4 ],
-//     [5 , 'Shawshank Redemption is a triumph of storytelling, a tale of hope, friendship, and the human spirit.', 1, 5 ],
-//     [6 , 'The Godfather is a cinematic masterpiece that immerses viewers in the world of organized crime, blending power, family, and tragedy seamlessly.', 1, 6 ],
-//     [7 , 'Pulp Fiction is a groundbreaking cinematic experience, weaving together multiple narratives with non-linear storytelling and Tarantino is signature wit.', 1, 7 ],
-//     [8 , 'The Fellowship of the Ring introduces audiences to Middle-earth with breathtaking visuals and a compelling narrative.', 1, 8 ],
-//     [9 , 'The Lion King is an animated masterpiece, combining stunning visuals, a memorable soundtrack, and a timeless coming-of-age story.', 1, 9 ],
-//     [10, 'Schindler is List is a haunting and powerful exploration of one man is moral awakening during the Holocaust.', 1, 10],
-//     [11, 'Fight Club is a thought-provoking exploration of societal discontent and the search for identity. Fincher is direction, combined with stellar performances, creates a mind-bending and unforgettable film.', 1, 11],
-//     [12, 'The Matrix Reloaded expands the mind-bending universe introduced in the first film, delivering thrilling action sequences and delving deeper into the philosophical questions raised by the original.', 1, 12],
-//     [13, 'The Matrix Revolutions concludes the trilogy with epic battles and a resolution to the philosophical themes explored throughout the series. While not without its critiques, it remains a visually impressive and thought-provoking installment.', 1, 13],
-//     [14, 'Jurassic Park revolutionized filmmaking with its groundbreaking special effects, bringing dinosaurs to life in a thrilling adventure. Spielberg is direction and John Williams score contribute to its status as a cinematic classic.', 1, 14],
-//     [15, 'James Cameron is The Terminator is a sci-fi classic that blends suspense, action, and groundbreaking effects.', 1, 15],
-//     [16, 'Casablanca is a timeless romance set against the backdrop of World War II.', 1, 16],
-//     [17, 'Gone with the Wind is an epic tale of love and loss set against the backdrop of the American Civil War.', 1, 17],
-//     [18, 'Orson Welles Citizen Kane is a groundbreaking work of cinema that revolutionized storytelling and cinematography.', 1, 18],
-//     [19, 'E.T. is a heartwarming and magical adventure that captures the essence of childhood wonder.', 1, 19],
-//     [20, 'James Cameron is Avatar is a visually stunning and immersive cinematic experience that transports audiences to the lush world of Pandora.', 1, 20],
-// ];
+const Reviewsdata = [
+    [1 , 'Today I had the opportunity to watch the third and fourth round of Inception. Feeling stuck again, so I came to read Pantip during the movie is start. I can see many comments saying that it is the best movie they have ever seen. This thread therefore invites you to talk about your impressions of this matter. Ours is probably beyond the plot and cast that are very appropriate. We have never seen any other films by Director Nolan, but we admit that Really awesome Actually, I am still confused about many points in the movie. But you have to find the answer. By the way, maybe we are dreaming.', 1, 1 ],
+    [2 , 'Heath Ledger is Joker steals the show, elevating The Dark Knight into a dark and gripping masterpiece.', 1, 2 ],
+    [3 , 'Interstellar weaves an emotional and visually stunning tale of space exploration and the human spirit.', 1, 3 ],
+    [4 , 'Forrest Gump is a heartwarming tale that seamlessly blends humor, emotion, and historical events.', 1, 4 ],
+    [5 , 'Shawshank Redemption is a triumph of storytelling, a tale of hope, friendship, and the human spirit.', 1, 5 ],
+    [6 , 'The Godfather is a cinematic masterpiece that immerses viewers in the world of organized crime, blending power, family, and tragedy seamlessly.', 1, 6 ],
+    [7 , 'Pulp Fiction is a groundbreaking cinematic experience, weaving together multiple narratives with non-linear storytelling and Tarantino is signature wit.', 1, 7 ],
+    [8 , 'The Fellowship of the Ring introduces audiences to Middle-earth with breathtaking visuals and a compelling narrative.', 1, 8 ],
+    [9 , 'The Lion King is an animated masterpiece, combining stunning visuals, a memorable soundtrack, and a timeless coming-of-age story.', 1, 9 ],
+    [10, 'Schindler is List is a haunting and powerful exploration of one man is moral awakening during the Holocaust.', 1, 10],
+    [11, 'Fight Club is a thought-provoking exploration of societal discontent and the search for identity. Fincher is direction, combined with stellar performances, creates a mind-bending and unforgettable film.', 1, 11],
+    [12, 'The Matrix Reloaded expands the mind-bending universe introduced in the first film, delivering thrilling action sequences and delving deeper into the philosophical questions raised by the original.', 1, 12],
+    [13, 'The Matrix Revolutions concludes the trilogy with epic battles and a resolution to the philosophical themes explored throughout the series. While not without its critiques, it remains a visually impressive and thought-provoking installment.', 1, 13],
+    [14, 'Jurassic Park revolutionized filmmaking with its groundbreaking special effects, bringing dinosaurs to life in a thrilling adventure. Spielberg is direction and John Williams score contribute to its status as a cinematic classic.', 1, 14],
+    [15, 'James Cameron is The Terminator is a sci-fi classic that blends suspense, action, and groundbreaking effects.', 1, 15],
+    [16, 'Casablanca is a timeless romance set against the backdrop of World War II.', 1, 16],
+    [17, 'Gone with the Wind is an epic tale of love and loss set against the backdrop of the American Civil War.', 1, 17],
+    [18, 'Orson Welles Citizen Kane is a groundbreaking work of cinema that revolutionized storytelling and cinematography.', 1, 18],
+    [19, 'E.T. is a heartwarming and magical adventure that captures the essence of childhood wonder.', 1, 19],
+    [20, 'James Cameron is Avatar is a visually stunning and immersive cinematic experience that transports audiences to the lush world of Pandora.', 1, 20],
+    [21, 'A mind-bending masterpiece that explores the depths of dreams and reality.', 2, 1],
+    [22, 'A gripping and dark portrayal of the Batman universe, elevated by Heath Ledger is iconic performance as the Joker.', 2, 2],
+    [23, 'A visually stunning and emotionally powerful sci-fi epic that explores the vastness of space and the human spirit.', 2, 3],
+    [24, 'A heartwarming and beautifully crafted tale of a man is extraordinary journey through life.', 2, 4],
+    [25, 'A compelling and emotionally charged story of hope, friendship, and redemption.', 2, 5],
+    [26, 'Francis Ford Coppola is masterpiece, The Godfather, is an epic tale of power, family, and crime.', 2, 6],
+    [27, 'Quentin Tarantino is Pulp Fiction is a bold and unconventional masterpiece that redefined storytelling.', 2, 7],
+    [28, 'Peter Jackson is epic fantasy adaptation captures the magic and grandeur of J.R.R. Tolkien is world.', 2, 8],
+    [29, 'A timeless animated classic with breathtaking animation, memorable characters, and a powerful soundtrack.', 2, 9],
+    [30, 'Steven Spielberg is Schindler is List is a haunting and powerful portrayal of one man is moral journey during the Holocaust.', 2, 10],
+    [31, 'David Fincher is Fight Club is a provocative and thought-provoking exploration of identity and societal discontent.', 2, 11],
+    [32, 'The Matrix Reloaded expands the groundbreaking universe introduced in the first film, delivering spectacular action sequences.', 2, 12],
+    [33, 'The Matrix Revolutions concludes the trilogy with epic battles and a resolution to the philosophical themes explored throughout the series.', 2, 13],
+    [34, 'Steven Spielberg is Jurassic Park is a groundbreaking adventure that revolutionized special effects in filmmaking.', 2, 14],
+    [35, 'James Cameron is The Terminator is a sci-fi classic that blends suspense, action, and groundbreaking effects.', 2, 15],
+    [36, 'Casablanca is a timeless romance set against the backdrop of World War II.', 2, 16],
+    [37, 'Gone with the Wind is an epic tale of love and loss set against the backdrop of the American Civil War.', 2, 17],
+    [38, 'Orson Welles Citizen Kane is a groundbreaking work of cinema that revolutionized storytelling and cinematography.', 2, 18],
+    [39, 'E.T. is a heartwarming and magical adventure that captures the essence of childhood wonder.', 2, 19],
+    [40, 'The film is groundbreaking use of 3D technology set a new standard for visual spectacle.', 2, 20],
+    [41, 'Christopher Nolan is direction creates a visually stunning and intellectually engaging experience.', 3, 1],
+    [42, 'Christopher Nolan is direction brings a level of realism and complexity to the superhero genre.', 3, 2],
+    [43, 'Christopher Nolan is attention to scientific detail and storytelling brilliance shine throughout.', 3, 3],
+    [44, 'Tom Hanks portrayal of Forrest is both charming and Oscar-worthy.', 3, 4],
+    [45, 'Tim Robbins and Morgan Freeman deliver stellar performances, bringing depth to their characters.', 3, 5],
+    [46, 'Marlon Brando is iconic performance as Vito Corleone is a highlight of the film.', 3, 6],
+    [47, 'The film is non-linear structure and witty dialogue make it a unique cinematic experience.', 3, 7],
+    [48, 'The Fellowship of the Ring sets the stage with breathtaking visuals and a compelling narrative.', 3, 8],
+    [49, 'The Lion King is coming-of-age story resonates with audiences of all ages.', 3, 9],
+    [50, 'Liam Neeson is portrayal of Oskar Schindler is a triumph, conveying both humanity and despair.', 3, 10],
+    [51, 'Edward Norton and Brad Pitt deliver riveting performances, bringing complexity to their characters.', 3, 11],
+    [52, 'Keanu Reeves Neo continues to be a compelling and iconic character.', 3, 12],
+    [53, 'The film balances action and philosophy, providing a satisfying conclusion to Neo is journey.', 3, 13],
+    [54, 'The film is realistic portrayal of dinosaurs and thrilling sequences set a new standard for the genre.', 3, 14],
+    [55, 'Arnold Schwarzenegger is portrayal of the Terminator has become iconic in popular culture.', 3, 15],
+    [56, 'Humphrey Bogart and Ingrid Bergmans on-screen chemistry creates a memorable and enduring love story.', 3, 16],
+    [57, 'Vivien Leighs portrayal of Scarlett O Hara is a captivating and complex performance.', 3, 17],
+    [58, 'The film is non-linear narrative and innovative use of deep focus have become hallmarks of its brilliance.', 3, 18],
+    [59, 'Steven Spielberg is direction and John Williams score contribute to the film is emotional resonance.', 3, 19],
+    [60, 'The films groundbreaking use of 3D technology set a new standard for visual spectacle.', 3, 20],
+    [61, 'The intricate plot and brilliant performances, especially by Leonardo DiCaprio, keep you on the edge of your seat.', 4, 1],
+    [62, 'The film is moral dilemmas and intense action sequences make it a standout in the genre.', 4, 2],
+    [63, 'The film is emotional depth is heightened by Hans Zimmer is evocative score.', 4, 3],
+    [64, 'The film is unique approach to historical events adds a layer of humor and nostalgia.', 4, 4],
+    [65, 'The film is pacing and narrative structure keep the audience engaged from start to finish.', 4, 5],
+    [66, 'The storytelling is rich and immersive, with memorable characters and intense drama.', 4, 6],
+    [67, 'Memorable characters, such as Jules and Vincent, add to the film is cult status.', 4, 7],
+    [68, 'The ensemble cast, stunning landscapes, and Howard Shores score contribute to the film is greatness.', 4, 8],
+    [69, 'The emotional depth and impactful themes make it more than just a children is film.', 4, 9],
+    [70, 'The film is black-and-white cinematography adds a stark realism to the historical narrative.', 4, 10],
+    [71, 'The film is dark humor and mind-bending plot twists keep audiences engaged from start to finish.', 4, 11],
+    [72, 'The film delves deeper into the philosophical questions raised by the original Matrix.', 4, 12],
+    [73, 'The Wachowskis continue to push the boundaries of visual effects and cinematic storytelling.', 4, 13],
+    [74, 'John Williams iconic score adds to the suspense and wonder of the prehistoric world.', 4, 14],
+    [75, 'The film is relentless pace and inventive storytelling contributed to its success.', 4, 15],
+    [76, 'The film is dialogue is filled with iconic quotes that have become part of cinematic history.', 4, 16],
+    [77, 'The film is sweeping visuals, memorable score, and iconic scenes contribute to its grandeur.', 4, 17],
+    [78, 'Orson Welles performance as Charles Foster Kane is a tour de force in acting.', 4, 18],
+    [79, 'The relationship between Elliott and E.T. is the heart of the film, creating a timeless connection with audiences.', 4, 19],
+    [80, 'Avatars environmental themes and epic scope contribute to its monumental success.', 4, 20],
+    [81, 'Hans Zimmer is score enhances the film is intensity, adding to its overall brilliance.', 5, 1],
+    [82, 'The Dark Knight is a superhero film that transcends the genre, setting a new standard.', 5, 2],
+    [83, 'Matthew McConaughey delivers a compelling performance, adding a human touch to the cosmic journey.', 5, 3],
+    [84, 'The emotionally resonant soundtrack enhances the storytelling.', 5, 4],
+    [85, 'The Shawshank Redemption is a testament to the enduring power of the human spirit.', 5, 5],
+    [86, 'It stands as a cinematic achievement, setting the standard for crime dramas.', 5, 6],
+    [87, 'Pulp Fiction remains a cultural touchstone for its innovation and pop culture impact.', 5, 7],
+    [88, 'It successfully brings Middle-earth to life, laying the foundation for an unforgettable trilogy.', 5, 8],
+    [89, 'The Lion King remains a pinnacle of Disney animation, celebrated for its enduring legacy.', 5, 9],
+    [90, 'It stands as a testament to the atrocities of the past and the resilience of the human spirit.', 5, 10],
+    [91, 'It challenges conventional norms and invites viewers to question their own perceptions.', 5, 11],
+    [92, 'While not without its criticisms, The Matrix Reloaded remains a visually impressive and ambitious sequel.', 5, 12],
+    [93, 'The Matrix Revolutions may not reach the heights of the original, but it adds closure to the overarching narrative.', 5, 13],
+    [94, 'Jurassic Park remains a timeless classic, captivating audiences with its sense of awe and danger.', 5, 14],
+    [95, 'It remains a thrilling and influential work in the realm of science fiction.', 5, 15],
+    [96, 'It stands as a testament to the enduring power of love and sacrifice.', 5, 16],
+    [97, 'It stands as a landmark achievement in storytelling and filmmaking.', 5, 17],
+    [98, 'It remains a pinnacle of artistic achievement and a cornerstone of cinematic education.', 5, 18],
+    [99, 'E.T. remains a beloved family classic, transcending generations with its universal themes.', 5, 19],
+    [100,'Avatar stands as a cinematic milestone, influencing the way films are made and experienced.', 5, 20],
+];
 
-// const reviewsInsert = db.prepare('INSERT INTO Reviews VALUES (?, ?, ?, ?)');
-// Reviewsdata.forEach(data => reviewsInsert.run(data));
-// reviewsInsert.finalize();
+const reviewsInsert = db.prepare('INSERT INTO Reviews VALUES (?, ?, ?, ?)');
+Reviewsdata.forEach(data => reviewsInsert.run(data));
+reviewsInsert.finalize();
 
-// db.close();
-
+db.close();
 
 // INSERT USERSDATA
 // const sqlite3 = require('sqlite3').verbose();
 // const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
 
 // const Usersdata = [
-//     [1, 'kittikarn', 'kittigan1486@gmail.com', '14082003'],
-//     [2, 'sxdx', 'sxdx3@gmail.com', '14082546'],
-//     [3, 'Papaya', 'nay25140@gmail.com', '12345678'],
-//     [4, 'Ohomg', 'ohomg55@gmail.com', '2408888'],
-//     [5, 'Pxydxwn', 'pxydxwn@gmail.com', '254666']
+//     [6, 'John', 'John@gmail.com', '123456']
 // ];
 
 // const UsersInsert = db.prepare('INSERT INTO Users VALUES (?, ?, ?, ?)');
@@ -244,7 +319,7 @@
 // UsersInsert.finalize();
 // db.close();
 
-const sqlite3 = require('sqlite3').verbose();
-const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
-db.run('DELETE FROM Reviews')
-db.close();
+// const sqlite3 = require('sqlite3').verbose();
+// const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
+// db.run('DELETE FROM Reviews')
+// db.close();

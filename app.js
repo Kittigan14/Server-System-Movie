@@ -412,20 +412,33 @@ app.delete('/deleteUser', async (req, res) => {
     try {
         const username = req.body.userName;
 
-        const sql = `
-            DELETE FROM Users
-            WHERE UserName = ?`;
+            const sqlDeleteUser = `
+                DELETE FROM Users
+                WHERE UserName = ?`;
 
-        db.run(sql, [username], (err) => {
-            if (err) {
-                console.error(err);
-                res.status(500).json({
-                    error: err.message
-                });
-            } else {
-                res.send("User deleted successfully");
-            }
-        });
+            db.run(sqlDeleteUser, [username], (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({
+                        error: err.message
+                    });
+                }
+            });
+
+            const sqlDeleteReviews = `
+                DELETE FROM Reviews
+                WHERE UserID = ?`;
+
+            db.run(sqlDeleteReviews, [username], (err) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).json({
+                        error: err.message
+                    });
+                } else {
+                    res.send("User deleted successfully");
+                }
+            });
     } catch (err) {
         console.error(err);
         res.status(500).json({
@@ -433,6 +446,7 @@ app.delete('/deleteUser', async (req, res) => {
         });
     }
 });
+
 
 app.post('/updateUserName', async (req, res) => {
     const newUserName = req.body.newUserName;
