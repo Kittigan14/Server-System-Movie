@@ -1,13 +1,13 @@
 const express = require("express");
 const session = require("express-session");
 const sqlite = require("sqlite3")
-const cors = require('cors');
 const app = express();
+const cors = require('cors');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-// app.use(cors());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // Storage Username
 app.use(
@@ -54,7 +54,7 @@ db.run(`CREATE TABLE IF NOT EXISTS Reviews (
 )`);
 
 // Register Route
-app.post("/registerPost", (req, res) => {
+app.post("/registerPost", async (req, res) => {
     const data = req.body;
     const sqlCheck = "SELECT * FROM Users WHERE UserName = ? OR Email = ?";
     const sqlInsert = "INSERT INTO Users (UserName, Email, Password) VALUES (?, ?, ?)";
@@ -90,12 +90,12 @@ app.post("/registerPost", (req, res) => {
 });
 
 // Login Route
-app.get('/login', (req, res) => {
+app.get('/login', async (req, res) => {
     res.send('This is the login page.');
 });
 
 // Check Login User Route
-app.post("/loginPost", (req, res) => {
+app.post("/loginPost", async (req, res) => {
     const data = req.body;
     const sqlSearch = "SELECT * FROM Users WHERE UserName = ? AND Password = ?";
 
@@ -122,18 +122,18 @@ app.post("/loginPost", (req, res) => {
 });
 
 // Logout Route
-app.post("/logout", (req, res) => {
+app.post("/logout", async (req, res) => {
     req.session.destroy();
     res.send('Logout Success!');
 });
 
 // ForgetPassword Route
-app.get("/forgetPassword", (req, res) => {
+app.get("/forgetPassword", async (req, res) => {
     res.send('This is the login page.');
 });
 
 // Update Password Route
-app.post('/editPassword', (req, res) => {
+app.post('/editPassword', async (req, res) => {
     const {
         email,
         newPassword,
@@ -169,19 +169,19 @@ app.post('/editPassword', (req, res) => {
 });
 
 // Movie Route
-app.get('/movies', (req, res) => {
+app.get('/movies', async (req, res) => {
     try {
         db.all("SELECT GenresID, GenreName FROM Genres", (errGenres, genres) => {
             if (errGenres) {
                 console.error(errGenres.message);
-                res.status(500).send("Internal Server Error");
+                res.status(500).send("Internal Server Error Genres");
                 return;
             }
 
             db.all("SELECT * FROM Movies", (errMovies, movies) => {
                 if (errMovies) {
                     console.error(errMovies.message);
-                    res.status(500).send("Internal Server Error");
+                    res.status(500).send("Internal Server Error Movies");
                     return;
                 }
 
@@ -279,7 +279,7 @@ app.get("/detailMovie/:MovieID", async (req, res) => {
 });
 
 // Search Movie
-app.get("/searchMovie", (req, res) => {
+app.get("/searchMovie", async (req, res) => {
     const searchTerm = req.query.searchTerm;
     if (!searchTerm) {
         res.status(400).send("Search term is required");
@@ -306,7 +306,7 @@ app.get("/searchMovie", (req, res) => {
 });
 
 // Reviews Movie Route
-app.post('/reviewsPost', (req, res) => {
+app.post('/reviewsPost', async (req, res) => {
     try {
         const comment = req.body.comment;
         const movieId = req.body.movieId;
@@ -326,12 +326,12 @@ app.post('/reviewsPost', (req, res) => {
     }
 });
 
-app.get('/reviews', (req, res) => {
+app.get('/reviews', async (req, res) => {
     res.send("Displaying reviews");
 });
 
 // profile Route
-app.get('/profile', (req, res) => {
+app.get('/profile', async (req, res) => {
     res.send("Displaying Profile");
 });
 
@@ -363,7 +363,7 @@ app.post('/profilePost', (req, res) => {
     }
 });
 
-app.delete('/deleteUser', (req, res) => {
+app.delete('/deleteUser', async (req, res) => {
     try {
         const username = req.body.userName;
 
@@ -389,7 +389,7 @@ app.delete('/deleteUser', (req, res) => {
     }
 });
 
-app.post('/updateUserName', (req, res) => {
+app.post('/updateUserName', async (req, res) => {
     const newUserName = req.body.newUserName;
     const userID = req.body.userID;
 
@@ -408,7 +408,7 @@ app.post('/updateUserName', (req, res) => {
     });
 });
 
-app.post('/updateProfile', (req, res) => {
+app.post('/updateProfile', async (req, res) => {
     try {
         const userID = req.session.user ? req.session.user.UserID : null;
         const newUserName = req.body.newUserName;
@@ -447,7 +447,7 @@ app.get('/editEmail', async (req, res) => {
     res.send('this is the page edit Email');
 });
 
-app.post('/updateEmail', (req, res) => {
+app.post('/updateEmail', async (req, res) => {
     const newEmail = req.body.newEmail;
     const userID = req.body.userID;
 
