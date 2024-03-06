@@ -1,6 +1,6 @@
 //  INSERT MOVIES TABLE
 // const sqlite3 = require('sqlite3').verbose();
-// const db = new sqlite3.Database('Movies_System.sqlite');
+// const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
 
 // const moviesData = [
 //     [1,
@@ -172,7 +172,7 @@
 
 //  INSERT GENRES TABLE
 // const sqlite3 = require('sqlite3').verbose();
-// const db = new sqlite3.Database('Movies_System.sqlite');
+// const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
 
 // const genresData = [
 //   [1  , 'Action'   ],
@@ -191,3 +191,60 @@
 // genresInsert.finalize();
 
 // db.close();
+
+
+// INSERT REVIEWS
+// const sqlite3 = require('sqlite3').verbose();
+// const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
+
+// const Reviewsdata = [
+//     [1 , 'Today I had the opportunity to watch the third and fourth round of Inception. Feeling stuck again, so I came to read Pantip during the movie is start. I can see many comments saying that it is the best movie they have ever seen. This thread therefore invites you to talk about your impressions of this matter. Ours is probably beyond the plot and cast that are very appropriate. We have never seen any other films by Director Nolan, but we admit that Really awesome Actually, I am still confused about many points in the movie. But you have to find the answer. By the way, maybe we are dreaming.', 1, 1 ],
+//     [2 , 'Heath Ledger is Joker steals the show, elevating The Dark Knight into a dark and gripping masterpiece.', 1, 2 ],
+//     [3 , 'Interstellar weaves an emotional and visually stunning tale of space exploration and the human spirit.', 1, 3 ],
+//     [4 , 'Forrest Gump is a heartwarming tale that seamlessly blends humor, emotion, and historical events.', 1, 4 ],
+//     [5 , 'Shawshank Redemption is a triumph of storytelling, a tale of hope, friendship, and the human spirit.', 1, 5 ],
+//     [6 , 'The Godfather is a cinematic masterpiece that immerses viewers in the world of organized crime, blending power, family, and tragedy seamlessly.', 1, 6 ],
+//     [7 , 'Pulp Fiction is a groundbreaking cinematic experience, weaving together multiple narratives with non-linear storytelling and Tarantino is signature wit.', 1, 7 ],
+//     [8 , 'The Fellowship of the Ring introduces audiences to Middle-earth with breathtaking visuals and a compelling narrative.', 1, 8 ],
+//     [9 , 'The Lion King is an animated masterpiece, combining stunning visuals, a memorable soundtrack, and a timeless coming-of-age story.', 1, 9 ],
+//     [10, 'Schindler is List is a haunting and powerful exploration of one man is moral awakening during the Holocaust.', 1, 10],
+//     [11, 'Fight Club is a thought-provoking exploration of societal discontent and the search for identity. Fincher is direction, combined with stellar performances, creates a mind-bending and unforgettable film.', 1, 11],
+//     [12, 'The Matrix Reloaded expands the mind-bending universe introduced in the first film, delivering thrilling action sequences and delving deeper into the philosophical questions raised by the original.', 1, 12],
+//     [13, 'The Matrix Revolutions concludes the trilogy with epic battles and a resolution to the philosophical themes explored throughout the series. While not without its critiques, it remains a visually impressive and thought-provoking installment.', 1, 13],
+//     [14, 'Jurassic Park revolutionized filmmaking with its groundbreaking special effects, bringing dinosaurs to life in a thrilling adventure. Spielberg is direction and John Williams score contribute to its status as a cinematic classic.', 1, 14],
+//     [15, 'James Cameron is The Terminator is a sci-fi classic that blends suspense, action, and groundbreaking effects.', 1, 15],
+//     [16, 'Casablanca is a timeless romance set against the backdrop of World War II.', 1, 16],
+//     [17, 'Gone with the Wind is an epic tale of love and loss set against the backdrop of the American Civil War.', 1, 17],
+//     [18, 'Orson Welles Citizen Kane is a groundbreaking work of cinema that revolutionized storytelling and cinematography.', 1, 18],
+//     [19, 'E.T. is a heartwarming and magical adventure that captures the essence of childhood wonder.', 1, 19],
+//     [20, 'James Cameron is Avatar is a visually stunning and immersive cinematic experience that transports audiences to the lush world of Pandora.', 1, 20],
+// ];
+
+// const reviewsInsert = db.prepare('INSERT INTO Reviews VALUES (?, ?, ?, ?)');
+// Reviewsdata.forEach(data => reviewsInsert.run(data));
+// reviewsInsert.finalize();
+
+// db.close();
+
+
+// INSERT USERSDATA
+// const sqlite3 = require('sqlite3').verbose();
+// const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
+
+// const Usersdata = [
+//     [1, 'kittikarn', 'kittigan1486@gmail.com', '14082003'],
+//     [2, 'sxdx', 'sxdx3@gmail.com', '14082546'],
+//     [3, 'Papaya', 'nay25140@gmail.com', '12345678'],
+//     [4, 'Ohomg', 'ohomg55@gmail.com', '2408888'],
+//     [5, 'Pxydxwn', 'pxydxwn@gmail.com', '254666']
+// ];
+
+// const UsersInsert = db.prepare('INSERT INTO Users VALUES (?, ?, ?, ?)');
+// Usersdata.forEach(data => UsersInsert.run(data));
+// UsersInsert.finalize();
+// db.close();
+
+const sqlite3 = require('sqlite3').verbose();
+const db = new sqlite3.Database('MovieMindsHub_Data.sqlite');
+db.run('DELETE FROM Reviews')
+db.close();

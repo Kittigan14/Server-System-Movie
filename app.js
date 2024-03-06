@@ -6,7 +6,9 @@ const cors = require('cors');
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({
+    extended: true
+}));
 app.use(cors());
 
 // Storage Username
@@ -19,14 +21,10 @@ app.use(
 );
 
 // Connection Database
-const db = new sqlite.Database("Movies_System.sqlite");
+const db = new sqlite.Database("MovieMindsHub_Data.sqlite");
 
 // Create Table Database
-db.run(`CREATE TABLE IF NOT EXISTS Genres (
-    GenresID INTEGER PRIMARY KEY AUTOINCREMENT,
-    GenreName TEXT
-)`);
-
+// Users
 db.run(`CREATE TABLE IF NOT EXISTS Users (
     UserID INTEGER PRIMARY KEY AUTOINCREMENT,
     UserName TEXT,
@@ -34,6 +32,13 @@ db.run(`CREATE TABLE IF NOT EXISTS Users (
     Password TEXT
 )`);
 
+// Genres
+db.run(`CREATE TABLE IF NOT EXISTS Genres (
+    GenresID INTEGER PRIMARY KEY AUTOINCREMENT,
+    GenreName TEXT
+)`);
+
+// Movies
 db.run(`CREATE TABLE IF NOT EXISTS Movies (
     MovieID INTEGER PRIMARY KEY AUTOINCREMENT,
     Title TEXT,		
@@ -45,11 +50,13 @@ db.run(`CREATE TABLE IF NOT EXISTS Movies (
     FOREIGN KEY (GenresID) REFERENCES Genres(GenresID)
 )`);
 
+// Reviews
 db.run(`CREATE TABLE IF NOT EXISTS Reviews (
     ReviewsID INTEGER PRIMARY KEY AUTOINCREMENT,
     Comment TEXT,			
-    UserName TEXT,
+    UserID TEXT,
     MovieID INTEGER,
+    FOREIGN KEY (UserID) REFERENCES Users(UserID)
     FOREIGN KEY (MovieID) REFERENCES Movies(MovieID)
 )`);
 
@@ -77,8 +84,6 @@ app.post("/registerPost", async (req, res) => {
                 }
 
                 const lastInsertId = this.lastID;
-                // console.log(`Insert User RowID ${lastInsertId}`);
-                // console.log(`The corresponding UserID is ${lastInsertId}`);
                 console.log(`Sign Up Successfully! \nUserID : ${lastInsertId}`);
                 res.send('Sign UP Successfully!');
             });
@@ -255,7 +260,10 @@ app.get("/detailMovie/:MovieID", async (req, res) => {
             }
 
             const commentsSql = `
-                SELECT * FROM Reviews WHERE MovieID = ?
+                SELECT r.*, u.UserName
+                FROM Reviews r
+                LEFT JOIN Users u ON r.UserID = u.UserID
+                WHERE r.MovieID = ?
             `;
 
             db.all(commentsSql, [movieId], (commentsErr, comments) => {
@@ -264,11 +272,11 @@ app.get("/detailMovie/:MovieID", async (req, res) => {
                     res.status(500).send("Internal Server Error");
                     return;
                 }
+                // console.log(comments);
 
                 res.send({
-                    userName: req.session.user ? req.session.user.UserName : "",
                     movie,
-                    comments
+                    comments,
                 });
             });
         });
@@ -310,21 +318,58 @@ app.post('/reviewsPost', async (req, res) => {
     try {
         const comment = req.body.comment;
         const movieId = req.body.movieId;
-        const userName = req.body.userName;
+        const userID = req.body.userID;
 
-        const sql = `
-            INSERT INTO Reviews (Comment, UserName, MovieID)
+        if (!comment || !movieId || !userID) {
+            res.status(400).send('Missing required fields: comment, movieId, and userID');
+            return;
+        }
+
+        const insertReviewSql = `
+            INSERT INTO Reviews (Comment, UserID, MovieID)
             VALUES (?, ?, ?)
         `;
-        db.run(sql, [comment, userName, movieId]);
+
+        db.run(insertReviewSql, [comment, userID, movieId], function (err) {
+            if (err) {
+                console.error(err);
+                res.status(500).send("Internal Server Error");
+                return;
+            }
+
+            const getUserSql = `
+                SELECT UserName
+                FROM Users
+                WHERE UserID = ?
+            `;
+
+            db.get(getUserSql, [userID], (err, user) => {
+                if (err) {
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                    return;
+                }
+
+                if (!user) {
+                    res.status(404).send('User not found');
+                    return;
+                }
+
+                const userName = user.UserName;
+                res.send({
+                    comment,
+                    userName
+                }); // Send both comment and userName
+            });
+        });
 
         console.log("Review posted successfully");
-        res.send("Review posted successfully");
-    } catch (err) {
-        console.error(err);
-        res.status(500).send(err);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
     }
 });
+
 
 app.get('/reviews', async (req, res) => {
     res.send("Displaying reviews");
@@ -401,7 +446,7 @@ app.post('/updateUserName', async (req, res) => {
     db.run(sql, [newUserName, userID], (err) => {
         if (err) {
             console.error(err);
-            res.status(500).send('Failed to update UserName' );
+            res.status(500).send('Failed to update UserName');
         } else {
             res.send('Update UserName Successfully!');
         }
@@ -427,7 +472,9 @@ app.post('/updateProfile', async (req, res) => {
                     // Update session
                     req.session.user.UserName = newUserName;
 
-                    res.send({ message: 'Profile updated successfully' });
+                    res.send({
+                        message: 'Profile updated successfully'
+                    });
                 }
             });
         } else {
@@ -459,7 +506,7 @@ app.post('/updateEmail', async (req, res) => {
     db.run(sql, [newEmail, userID], (err) => {
         if (err) {
             console.error(err);
-            res.status(500).send('Failed to update Email' );
+            res.status(500).send('Failed to update Email');
         } else {
             res.send('Update Email Successfully!');
         }
